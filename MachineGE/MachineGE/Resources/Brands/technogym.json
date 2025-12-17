@@ -1,0 +1,144 @@
+{
+    "brand": {
+        "id": "technogym",
+        "name": "테크노짐",
+        "nameEn": "Technogym",
+        "country": "international",
+        "description": "이탈리아 명품 피트니스 브랜드. 올림픽 공식 공급업체로 혁신적인 디자인과 기술력 보유.",
+        "website": "https://www.technogym.com"
+    },
+    "equipment": [
+        {
+            "id": "tg-incline-press",
+            "name": "셀렉션 인클라인 체스트 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "incline",
+            "movement": "press",
+            "position": "seated",
+            "description": "상부 가슴을 타겟으로 하는 인클라인 프레스. 테크노짐 특유의 부드러운 캠 시스템.",
+            "targetMuscles": ["대흉근 상부", "전면삼각근", "삼두근"],
+            "tips": "시작 위치를 조절하여 가슴 스트레칭 정도를 설정하세요."
+        },
+        {
+            "id": "tg-chest-press",
+            "name": "셀렉션 체스트 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "flat",
+            "movement": "press",
+            "position": "seated",
+            "description": "가슴 중앙부를 발달시키는 플랫 프레스 머신. 인체공학적 핸들 그립.",
+            "targetMuscles": ["대흉근 중부", "전면삼각근", "삼두근"],
+            "tips": "손목을 중립으로 유지하며 밀어내세요."
+        },
+        {
+            "id": "tg-pec-fly",
+            "name": "셀렉션 펙토럴",
+            "muscleGroup": "chest",
+            "trajectory": "flat",
+            "movement": "fly",
+            "position": "seated",
+            "description": "가슴 안쪽을 집중 자극하는 펙덱 플라이 머신.",
+            "targetMuscles": ["대흉근 내측", "전면삼각근"],
+            "tips": "모으는 동작에서 가슴 수축에 집중하세요."
+        },
+        {
+            "id": "tg-lat-machine",
+            "name": "셀렉션 랫 머신",
+            "muscleGroup": "back",
+            "trajectory": "pulldown",
+            "movement": "pulldown",
+            "position": "seated",
+            "description": "광배근 전체를 발달시키는 랫 풀다운 머신. 등 넓이 발달에 효과적.",
+            "targetMuscles": ["광배근", "대원근", "이두근"],
+            "tips": "내리는 동작에서 가슴을 펴고 등을 아치시키세요."
+        },
+        {
+            "id": "tg-row",
+            "name": "셀렉션 로우",
+            "muscleGroup": "back",
+            "trajectory": "mid_row",
+            "movement": "row",
+            "position": "seated",
+            "description": "등 중앙부 두께를 키우는 시티드 로우 머신.",
+            "targetMuscles": ["승모근 중부", "능형근", "광배근"],
+            "tips": "견갑골을 모으며 당기고 천천히 되돌려보내세요."
+        },
+        {
+            "id": "tg-shoulder-press",
+            "name": "셀렉션 숄더 프레스",
+            "muscleGroup": "shoulder",
+            "trajectory": "overhead",
+            "movement": "press",
+            "position": "seated",
+            "description": "어깨 전체를 발달시키는 숄더 프레스 머신. 자연스러운 아크 궤적.",
+            "targetMuscles": ["전면삼각근", "측면삼각근", "삼두근"],
+            "tips": "정수리 방향으로 밀어올리며 삼각근 수축을 느끼세요."
+        },
+        {
+            "id": "tg-lateral-raise",
+            "name": "셀렉션 래터럴 레이즈",
+            "muscleGroup": "shoulder",
+            "trajectory": "front",
+            "movement": "raise",
+            "position": "seated",
+            "description": "측면 삼각근을 고립시키는 래터럴 레이즈 머신.",
+            "targetMuscles": ["측면삼각근"],
+            "tips": "어깨 높이까지만 올리고 반동을 사용하지 마세요."
+        },
+        {
+            "id": "tg-leg-press",
+            "name": "셀렉션 레그 프레스",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "press",
+            "position": "seated",
+            "description": "하체 전체를 강화하는 레그 프레스 머신. 등받이 각도 조절 가능.",
+            "targetMuscles": ["대퇴사두근", "대둔근", "햄스트링"],
+            "tips": "무릎이 안쪽으로 모이지 않도록 주의하세요."
+        },
+        {
+            "id": "tg-leg-curl",
+            "name": "셀렉션 레그 컬",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "curl",
+            "position": "lying",
+            "description": "햄스트링을 고립시켜 자극하는 라잉 레그 컬 머신.",
+            "targetMuscles": ["햄스트링", "비복근"],
+            "tips": "발목을 세워서 햄스트링 자극을 극대화하세요."
+        },
+        {
+            "id": "tg-leg-extension",
+            "name": "셀렉션 레그 익스텐션",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "extension",
+            "position": "seated",
+            "description": "대퇴사두근을 고립 자극하는 레그 익스텐션 머신.",
+            "targetMuscles": ["대퇴사두근"],
+            "tips": "발끝을 위로 당긴 상태에서 수행하면 자극이 증가합니다."
+        },
+        {
+            "id": "tg-arm-curl",
+            "name": "셀렉션 암 컬",
+            "muscleGroup": "arms",
+            "trajectory": "standard",
+            "movement": "curl",
+            "position": "seated",
+            "description": "이두근을 고립 자극하는 암 컬 머신.",
+            "targetMuscles": ["이두근", "전완근"],
+            "tips": "팔꿈치 위치를 고정하고 수축에 집중하세요."
+        },
+        {
+            "id": "tg-arm-extension",
+            "name": "셀렉션 암 익스텐션",
+            "muscleGroup": "arms",
+            "trajectory": "standard",
+            "movement": "extension",
+            "position": "seated",
+            "description": "삼두근을 고립 자극하는 암 익스텐션 머신.",
+            "targetMuscles": ["삼두근"],
+            "tips": "완전히 펴는 동작에서 삼두근 수축을 느끼세요."
+        }
+    ]
+}

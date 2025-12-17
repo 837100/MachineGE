@@ -1,0 +1,144 @@
+{
+    "brand": {
+        "id": "hoist",
+        "name": "하이옥스",
+        "nameEn": "Hoist",
+        "country": "domestic",
+        "description": "국내 체육관에서 널리 사용되는 브랜드. 합리적인 가격과 견고한 내구성으로 인기.",
+        "website": null
+    },
+    "equipment": [
+        {
+            "id": "ho-incline-press",
+            "name": "인클라인 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "incline",
+            "movement": "press",
+            "position": "seated",
+            "description": "상부 가슴을 집중 자극하는 인클라인 프레스 머신.",
+            "targetMuscles": ["대흉근 상부", "전면삼각근", "삼두근"],
+            "tips": "어깨가 말리지 않도록 견갑골을 고정하세요."
+        },
+        {
+            "id": "ho-chest-press",
+            "name": "체스트 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "flat",
+            "movement": "press",
+            "position": "seated",
+            "description": "가슴 중앙부를 발달시키는 기본 체스트 프레스 머신. 초보자에게 적합.",
+            "targetMuscles": ["대흉근 중부", "전면삼각근", "삼두근"],
+            "tips": "팔꿈치가 90도가 될 때까지 내린 후 밀어내세요."
+        },
+        {
+            "id": "ho-pec-fly",
+            "name": "펙덱 플라이",
+            "muscleGroup": "chest",
+            "trajectory": "flat",
+            "movement": "fly",
+            "position": "seated",
+            "description": "가슴 안쪽을 자극하는 펙덱 플라이 머신.",
+            "targetMuscles": ["대흉근 내측"],
+            "tips": "팔을 모을 때 가슴 수축을 극대화하세요."
+        },
+        {
+            "id": "ho-lat-pulldown",
+            "name": "랫 풀다운",
+            "muscleGroup": "back",
+            "trajectory": "pulldown",
+            "movement": "pulldown",
+            "position": "seated",
+            "description": "광배근을 발달시키는 랫 풀다운 머신.",
+            "targetMuscles": ["광배근", "대원근", "이두근"],
+            "tips": "바를 쇄골 앞쪽으로 당기고 등을 아치시키세요."
+        },
+        {
+            "id": "ho-seated-row",
+            "name": "시티드 로우",
+            "muscleGroup": "back",
+            "trajectory": "mid_row",
+            "movement": "row",
+            "position": "seated",
+            "description": "등 중앙부를 발달시키는 시티드 로우 머신.",
+            "targetMuscles": ["승모근 중부", "능형근", "광배근"],
+            "tips": "상체를 과도하게 젖히지 않고 등으로만 당기세요."
+        },
+        {
+            "id": "ho-shoulder-press",
+            "name": "숄더 프레스",
+            "muscleGroup": "shoulder",
+            "trajectory": "overhead",
+            "movement": "press",
+            "position": "seated",
+            "description": "어깨를 발달시키는 숄더 프레스 머신.",
+            "targetMuscles": ["전면삼각근", "측면삼각근", "삼두근"],
+            "tips": "정수리 방향으로 밀어올리며 허리를 아치시키지 마세요."
+        },
+        {
+            "id": "ho-lateral-raise",
+            "name": "래터럴 레이즈",
+            "muscleGroup": "shoulder",
+            "trajectory": "front",
+            "movement": "raise",
+            "position": "seated",
+            "description": "측면 삼각근을 자극하는 래터럴 레이즈 머신.",
+            "targetMuscles": ["측면삼각근"],
+            "tips": "어깨 높이까지만 올리세요."
+        },
+        {
+            "id": "ho-leg-press",
+            "name": "레그 프레스",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "press",
+            "position": "seated",
+            "description": "하체 전체를 강화하는 레그 프레스 머신.",
+            "targetMuscles": ["대퇴사두근", "대둔근", "햄스트링"],
+            "tips": "무릎이 발끝 방향을 향하도록 하세요."
+        },
+        {
+            "id": "ho-leg-curl",
+            "name": "레그 컬",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "curl",
+            "position": "lying",
+            "description": "햄스트링을 자극하는 레그 컬 머신.",
+            "targetMuscles": ["햄스트링"],
+            "tips": "엉덩이가 들리지 않도록 패드에 밀착하세요."
+        },
+        {
+            "id": "ho-leg-extension",
+            "name": "레그 익스텐션",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "extension",
+            "position": "seated",
+            "description": "대퇴사두근을 자극하는 레그 익스텐션 머신.",
+            "targetMuscles": ["대퇴사두근"],
+            "tips": "가벼운 무게로 시작하여 무릎에 부담을 줄이세요."
+        },
+        {
+            "id": "ho-bicep-curl",
+            "name": "암 컬",
+            "muscleGroup": "arms",
+            "trajectory": "standard",
+            "movement": "curl",
+            "position": "seated",
+            "description": "이두근을 자극하는 암 컬 머신.",
+            "targetMuscles": ["이두근", "전완근"],
+            "tips": "팔꿈치를 고정하고 반동 없이 수행하세요."
+        },
+        {
+            "id": "ho-tricep-extension",
+            "name": "트라이셉 익스텐션",
+            "muscleGroup": "arms",
+            "trajectory": "standard",
+            "movement": "extension",
+            "position": "seated",
+            "description": "삼두근을 자극하는 트라이셉 익스텐션 머신.",
+            "targetMuscles": ["삼두근"],
+            "tips": "팔꿈치를 몸 옆에 고정하세요."
+        }
+    ]
+}

@@ -1,0 +1,144 @@
+{
+    "brand": {
+        "id": "hammerstrength",
+        "name": "해머스트렝스",
+        "nameEn": "Hammer Strength",
+        "country": "international",
+        "description": "프로 선수들이 선호하는 미국 프리미엄 웨이트 장비 브랜드. 플레이트 로디드 머신의 대명사.",
+        "website": "https://www.lifefitness.com/hammer-strength"
+    },
+    "equipment": [
+        {
+            "id": "hs-incline-press",
+            "name": "인클라인 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "incline",
+            "movement": "press",
+            "position": "seated",
+            "description": "상부 가슴을 집중적으로 자극하는 인클라인 프레스 머신. 플레이트 로디드 방식으로 자연스러운 움직임 제공.",
+            "targetMuscles": ["대흉근 상부", "전면삼각근", "삼두근"],
+            "tips": "어깨가 과도하게 올라가지 않도록 견갑골을 고정하세요."
+        },
+        {
+            "id": "hs-flat-press",
+            "name": "아이소래터럴 벤치 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "flat",
+            "movement": "press",
+            "position": "lying",
+            "description": "양팔 독립 움직임으로 가슴 중앙부를 균형있게 발달시키는 플랫 프레스 머신.",
+            "targetMuscles": ["대흉근 중부", "전면삼각근", "삼두근"],
+            "tips": "양팔의 힘을 균등하게 사용하여 균형 발달을 도모하세요."
+        },
+        {
+            "id": "hs-decline-press",
+            "name": "디클라인 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "decline",
+            "movement": "press",
+            "position": "lying",
+            "description": "하부 가슴을 타겟으로 하는 디클라인 프레스 머신. 가슴 라인을 다듬는 데 효과적.",
+            "targetMuscles": ["대흉근 하부", "전면삼각근", "삼두근"],
+            "tips": "내리는 동작에서 가슴 하부의 수축을 느끼세요."
+        },
+        {
+            "id": "hs-high-row",
+            "name": "하이 로우",
+            "muscleGroup": "back",
+            "trajectory": "high_row",
+            "movement": "row",
+            "position": "seated",
+            "description": "상부 등과 후면 삼각근을 타겟으로 하는 하이 로우 머신.",
+            "targetMuscles": ["승모근 중부", "후면삼각근", "능형근"],
+            "tips": "팔꿈치를 높게 유지하며 당기세요."
+        },
+        {
+            "id": "hs-mid-row",
+            "name": "아이소래터럴 로우",
+            "muscleGroup": "back",
+            "trajectory": "mid_row",
+            "movement": "row",
+            "position": "seated",
+            "description": "등 중앙부 전체를 균형있게 발달시키는 기본 로우 머신. 양팔 독립 움직임.",
+            "targetMuscles": ["광배근", "능형근", "승모근 중부"],
+            "tips": "견갑골을 모으며 등 근육의 수축을 느끼세요."
+        },
+        {
+            "id": "hs-low-row",
+            "name": "로우 로우",
+            "muscleGroup": "back",
+            "trajectory": "low_row",
+            "movement": "row",
+            "position": "seated",
+            "description": "광배근 하부를 집중 자극하는 로우 로우 머신.",
+            "targetMuscles": ["광배근 하부", "대원근", "이두근"],
+            "tips": "상체를 과도하게 젖히지 말고 등으로 당기세요."
+        },
+        {
+            "id": "hs-pulldown",
+            "name": "프론트 풀다운",
+            "muscleGroup": "back",
+            "trajectory": "front_pulldown",
+            "movement": "pulldown",
+            "position": "seated",
+            "description": "광배근 전체를 발달시키는 프론트 풀다운 머신. 등 넓이 발달에 효과적.",
+            "targetMuscles": ["광배근", "대원근", "이두근"],
+            "tips": "가슴을 펴고 바를 쇄골 쪽으로 당기세요."
+        },
+        {
+            "id": "hs-shoulder-press",
+            "name": "숄더 프레스",
+            "muscleGroup": "shoulder",
+            "trajectory": "overhead",
+            "movement": "press",
+            "position": "seated",
+            "description": "삼각근 전체를 발달시키는 오버헤드 프레스 머신. 자연스러운 아크 궤적.",
+            "targetMuscles": ["전면삼각근", "측면삼각근", "삼두근"],
+            "tips": "허리가 과도하게 아치되지 않도록 코어에 힘을 주세요."
+        },
+        {
+            "id": "hs-lateral-raise",
+            "name": "래터럴 레이즈",
+            "muscleGroup": "shoulder",
+            "trajectory": "front",
+            "movement": "raise",
+            "position": "seated",
+            "description": "측면 삼각근을 고립시켜 자극하는 레이즈 머신.",
+            "targetMuscles": ["측면삼각근"],
+            "tips": "팔꿈치를 약간 구부린 상태를 유지하세요."
+        },
+        {
+            "id": "hs-leg-press",
+            "name": "리니어 레그 프레스",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "press",
+            "position": "seated",
+            "description": "하체 전체를 강화하는 45도 레그 프레스 머신. 고중량 훈련 가능.",
+            "targetMuscles": ["대퇴사두근", "대둔근", "햄스트링"],
+            "tips": "발 위치로 자극 부위를 조절하세요. 넓으면 내전근, 좁으면 외측광근."
+        },
+        {
+            "id": "hs-leg-curl",
+            "name": "라잉 레그 컬",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "curl",
+            "position": "lying",
+            "description": "햄스트링을 고립시켜 자극하는 레그 컬 머신.",
+            "targetMuscles": ["햄스트링", "비복근"],
+            "tips": "엉덩이가 들리지 않도록 패드에 밀착하세요."
+        },
+        {
+            "id": "hs-leg-extension",
+            "name": "레그 익스텐션",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "extension",
+            "position": "seated",
+            "description": "대퇴사두근을 고립시켜 자극하는 레그 익스텐션 머신.",
+            "targetMuscles": ["대퇴사두근"],
+            "tips": "무릎 관절에 부담이 가지 않도록 적절한 무게로 시작하세요."
+        }
+    ]
+}

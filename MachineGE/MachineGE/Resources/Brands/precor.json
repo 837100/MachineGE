@@ -1,0 +1,144 @@
+{
+    "brand": {
+        "id": "precor",
+        "name": "프리코",
+        "nameEn": "Precor",
+        "country": "international",
+        "description": "미국 프리미엄 피트니스 브랜드. 혁신적인 유산소 장비와 웨이트 장비로 유명.",
+        "website": "https://www.precor.com"
+    },
+    "equipment": [
+        {
+            "id": "pc-incline-press",
+            "name": "디스커버리 인클라인 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "incline",
+            "movement": "press",
+            "position": "seated",
+            "description": "상부 가슴을 집중 자극하는 인클라인 프레스 머신. 프리코 디스커버리 라인.",
+            "targetMuscles": ["대흉근 상부", "전면삼각근", "삼두근"],
+            "tips": "시작 위치를 조절하여 가슴 스트레칭을 최적화하세요."
+        },
+        {
+            "id": "pc-chest-press",
+            "name": "디스커버리 체스트 프레스",
+            "muscleGroup": "chest",
+            "trajectory": "flat",
+            "movement": "press",
+            "position": "seated",
+            "description": "가슴 중앙부를 발달시키는 체스트 프레스 머신. 인체공학적 설계.",
+            "targetMuscles": ["대흉근 중부", "전면삼각근", "삼두근"],
+            "tips": "그립 각도를 조절하여 다양한 자극을 시도하세요."
+        },
+        {
+            "id": "pc-fly",
+            "name": "디스커버리 펙토럴 플라이",
+            "muscleGroup": "chest",
+            "trajectory": "flat",
+            "movement": "fly",
+            "position": "seated",
+            "description": "가슴 안쪽을 자극하는 펙 플라이 머신.",
+            "targetMuscles": ["대흉근 내측", "전면삼각근"],
+            "tips": "팔을 모을 때 1초간 수축을 유지하세요."
+        },
+        {
+            "id": "pc-lat-pulldown",
+            "name": "디스커버리 랫 풀다운",
+            "muscleGroup": "back",
+            "trajectory": "pulldown",
+            "movement": "pulldown",
+            "position": "seated",
+            "description": "광배근을 발달시키는 랫 풀다운 머신.",
+            "targetMuscles": ["광배근", "대원근", "이두근"],
+            "tips": "다양한 바 부착물로 그립을 변경하세요."
+        },
+        {
+            "id": "pc-row",
+            "name": "디스커버리 시티드 로우",
+            "muscleGroup": "back",
+            "trajectory": "mid_row",
+            "movement": "row",
+            "position": "seated",
+            "description": "등 중앙부를 발달시키는 시티드 로우 머신.",
+            "targetMuscles": ["승모근 중부", "능형근", "광배근"],
+            "tips": "등 근육 수축에 집중하며 천천히 수행하세요."
+        },
+        {
+            "id": "pc-shoulder-press",
+            "name": "디스커버리 숄더 프레스",
+            "muscleGroup": "shoulder",
+            "trajectory": "overhead",
+            "movement": "press",
+            "position": "seated",
+            "description": "어깨를 발달시키는 숄더 프레스 머신.",
+            "targetMuscles": ["전면삼각근", "측면삼각근", "삼두근"],
+            "tips": "코어를 조이고 등을 등받이에 밀착하세요."
+        },
+        {
+            "id": "pc-lateral-raise",
+            "name": "디스커버리 래터럴 레이즈",
+            "muscleGroup": "shoulder",
+            "trajectory": "front",
+            "movement": "raise",
+            "position": "seated",
+            "description": "측면 삼각근을 고립 자극하는 래터럴 레이즈 머신.",
+            "targetMuscles": ["측면삼각근"],
+            "tips": "어깨를 으쓱하지 않고 팔만 올리세요."
+        },
+        {
+            "id": "pc-leg-press",
+            "name": "디스커버리 레그 프레스",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "press",
+            "position": "seated",
+            "description": "하체 전체를 강화하는 레그 프레스 머신.",
+            "targetMuscles": ["대퇴사두근", "대둔근", "햄스트링"],
+            "tips": "발 너비와 위치로 자극 부위를 조절하세요."
+        },
+        {
+            "id": "pc-leg-curl",
+            "name": "디스커버리 레그 컬",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "curl",
+            "position": "lying",
+            "description": "햄스트링을 자극하는 레그 컬 머신.",
+            "targetMuscles": ["햄스트링"],
+            "tips": "정점에서 수축을 유지하세요."
+        },
+        {
+            "id": "pc-leg-extension",
+            "name": "디스커버리 레그 익스텐션",
+            "muscleGroup": "legs",
+            "trajectory": "standard",
+            "movement": "extension",
+            "position": "seated",
+            "description": "대퇴사두근을 자극하는 레그 익스텐션 머신.",
+            "targetMuscles": ["대퇴사두근"],
+            "tips": "내리는 동작도 천천히 통제하세요."
+        },
+        {
+            "id": "pc-bicep-curl",
+            "name": "디스커버리 바이셉 컬",
+            "muscleGroup": "arms",
+            "trajectory": "standard",
+            "movement": "curl",
+            "position": "seated",
+            "description": "이두근을 자극하는 바이셉 컬 머신.",
+            "targetMuscles": ["이두근", "전완근"],
+            "tips": "팔꿈치를 고정하고 수축에 집중하세요."
+        },
+        {
+            "id": "pc-tricep-extension",
+            "name": "디스커버리 트라이셉 익스텐션",
+            "muscleGroup": "arms",
+            "trajectory": "standard",
+            "movement": "extension",
+            "position": "seated",
+            "description": "삼두근을 자극하는 트라이셉 익스텐션 머신.",
+            "targetMuscles": ["삼두근"],
+            "tips": "완전히 펴는 동작에서 삼두근 수축을 느끼세요."
+        }
+    ]
+}

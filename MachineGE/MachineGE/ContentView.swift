@@ -25,12 +25,12 @@ struct ContentView: View {
             
             MuscleGroupView()
                 .tabItem {
-                    Label("주동근별", systemImage: "figure.strengthtraining.traditional")
+                    Label("부위별", systemImage: "figure.strengthtraining.traditional")
                 }
             
-            MovementPatternView()
+            PositionListView()
                 .tabItem {
-                    Label("궤적별", systemImage: "arrow.triangle.2.circlepath")
+                    Label("자세별", systemImage: "figure.stand")
                 }
         }
         .environmentObject(dataManager)
@@ -49,14 +49,14 @@ struct EquipmentListView: View {
             return equipmentList
         }
         return equipmentList.filter {
-            $0.name.contains(searchText) || $0.brand.name.contains(searchText)
+            $0.name.localizedCaseInsensitiveContains(searchText) ||
+            $0.brand.name.localizedCaseInsensitiveContains(searchText)
         }
     }
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // 국내/해외 필터
                 Picker("장비 유형", selection: $selectedOrigin) {
                     Text("전체").tag(nil as EquipmentOrigin?)
                     ForEach(EquipmentOrigin.allCases, id: \.self) { origin in
@@ -163,6 +163,14 @@ struct BrandDetailView: View {
         dataManager.getEquipment(byBrandId: brand.id)
     }
     
+    var equipmentByMuscleGroup: [(MuscleGroup, [EquipmentViewModel])] {
+        let grouped = Dictionary(grouping: brandEquipment) { $0.muscleGroup }
+        return MuscleGroup.allCases.compactMap { muscleGroup in
+            guard let equipment = grouped[muscleGroup], !equipment.isEmpty else { return nil }
+            return (muscleGroup, equipment)
+        }
+    }
+    
     var body: some View {
         List {
             Section {
@@ -207,16 +215,18 @@ struct BrandDetailView: View {
                 Text("브랜드 정보")
             }
             
-            Section {
-                ForEach(brandEquipment) { equipment in
-                    NavigationLink {
-                        EquipmentDetailView(equipment: equipment)
-                    } label: {
-                        EquipmentRowView(equipment: equipment)
+            ForEach(equipmentByMuscleGroup, id: \.0) { muscleGroup, equipment in
+                Section {
+                    ForEach(equipment) { item in
+                        NavigationLink {
+                            EquipmentDetailView(equipment: item)
+                        } label: {
+                            EquipmentRowView(equipment: item)
+                        }
                     }
+                } header: {
+                    Label(muscleGroup.displayName, systemImage: muscleGroup.icon)
                 }
-            } header: {
-                Text("장비 목록")
             }
         }
         .navigationTitle(brand.name)
@@ -240,7 +250,7 @@ struct EquipmentRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(equipment.name)
                     .font(.headline)
-                HStack {
+                HStack(spacing: 4) {
                     Text(equipment.brand.name)
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -248,24 +258,25 @@ struct EquipmentRowView: View {
                     Text("•")
                         .foregroundStyle(.secondary)
                     
-                    Text(equipment.origin.rawValue)
+                    Text(equipment.position.displayName)
                         .font(.caption)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
-                        .background(equipment.origin == .domestic ? Color.green.opacity(0.2) : Color.orange.opacity(0.2))
-                        .foregroundStyle(equipment.origin == .domestic ? .green : .orange)
+                        .background(Color.green.opacity(0.1))
+                        .foregroundStyle(.green)
+                        .clipShape(Capsule())
+                    
+                    Text(equipment.trajectory.displayName)
+                        .font(.caption)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.purple.opacity(0.1))
+                        .foregroundStyle(.purple)
                         .clipShape(Capsule())
                 }
             }
             
             Spacer()
-            
-            Text(equipment.muscleGroup.name)
-                .font(.caption)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Color.gray.opacity(0.1))
-                .clipShape(Capsule())
         }
         .padding(.vertical, 4)
     }
@@ -278,7 +289,6 @@ struct EquipmentDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // 헤더 이미지 대체
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(Color.blue.gradient)
@@ -290,11 +300,12 @@ struct EquipmentDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                // 정보 카드
                 VStack(alignment: .leading, spacing: 16) {
                     InfoRow(title: "브랜드", value: "\(equipment.brand.name) (\(equipment.brand.nameEn))")
-                    InfoRow(title: "타겟 근육", value: equipment.muscleGroup.name)
-                    InfoRow(title: "운동 궤적", value: equipment.movementPattern.name)
+                    InfoRow(title: "타겟 부위", value: equipment.muscleGroup.displayName)
+                    InfoRow(title: "자세", value: equipment.position.displayName)
+                    InfoRow(title: "궤적", value: equipment.trajectory.displayName)
+                    InfoRow(title: "동작", value: equipment.movement.displayName)
                     InfoRow(title: "제조 국가", value: equipment.origin.rawValue)
                     
                     Divider()
@@ -344,7 +355,7 @@ struct EquipmentDetailView: View {
     }
 }
 
-// MARK: - Flow Layout (태그 표시용)
+// MARK: - Flow Layout
 struct FlowLayout: Layout {
     var spacing: CGFloat = 8
     
@@ -373,18 +384,15 @@ struct FlowLayout: Layout {
             
             for subview in subviews {
                 let size = subview.sizeThatFits(.unspecified)
-                
                 if x + size.width > width && x > 0 {
                     x = 0
                     y += rowHeight + spacing
                     rowHeight = 0
                 }
-                
                 positions.append(CGPoint(x: x, y: y))
                 rowHeight = max(rowHeight, size.height)
                 x += size.width + spacing
             }
-            
             height = y + rowHeight
         }
     }
@@ -405,14 +413,14 @@ struct InfoRow: View {
     }
 }
 
-// MARK: - 주동근별 뷰
+// MARK: - 부위별 뷰
 struct MuscleGroupView: View {
     @EnvironmentObject var dataManager: DataManager
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(dataManager.muscleGroups) { muscle in
+                ForEach(MuscleGroup.allCases) { muscle in
                     NavigationLink {
                         MuscleDetailView(muscleGroup: muscle)
                     } label: {
@@ -424,61 +432,10 @@ struct MuscleGroupView: View {
                                 .background(Color.blue.opacity(0.1))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             
-                            Text(muscle.name)
-                                .font(.headline)
-                        }
-                        .padding(.vertical, 8)
-                    }
-                }
-            }
-            .navigationTitle("💪 주동근별 운동")
-        }
-    }
-}
-
-struct MuscleDetailView: View {
-    @EnvironmentObject var dataManager: DataManager
-    let muscleGroup: MuscleGroupInfo
-    
-    var filteredEquipment: [EquipmentViewModel] {
-        dataManager.getEquipment(byMuscleGroup: muscleGroup.id)
-    }
-    
-    var body: some View {
-        List(filteredEquipment) { equipment in
-            NavigationLink {
-                EquipmentDetailView(equipment: equipment)
-            } label: {
-                EquipmentRowView(equipment: equipment)
-            }
-        }
-        .navigationTitle("\(muscleGroup.name) 운동")
-    }
-}
-
-// MARK: - 궤적별 뷰
-struct MovementPatternView: View {
-    @EnvironmentObject var dataManager: DataManager
-    
-    var body: some View {
-        NavigationStack {
-            List {
-                ForEach(dataManager.movementPatterns) { pattern in
-                    NavigationLink {
-                        PatternDetailView(pattern: pattern)
-                    } label: {
-                        HStack(spacing: 16) {
-                            Image(systemName: iconForPattern(pattern.id))
-                                .font(.title)
-                                .foregroundStyle(.purple)
-                                .frame(width: 50, height: 50)
-                                .background(Color.purple.opacity(0.1))
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            
-                            VStack(alignment: .leading) {
-                                Text(pattern.name)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(muscle.displayName)
                                     .font(.headline)
-                                Text(pattern.description)
+                                Text(muscle.trajectories.map { $0.displayName }.joined(separator: " • "))
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -487,45 +444,203 @@ struct MovementPatternView: View {
                     }
                 }
             }
-            .navigationTitle("🔄 비슷한 궤적")
-        }
-    }
-    
-    func iconForPattern(_ patternId: String) -> String {
-        switch patternId {
-        case "push": return "arrow.right.circle.fill"
-        case "pull": return "arrow.left.circle.fill"
-        case "press": return "arrow.up.circle.fill"
-        case "curl": return "arrow.uturn.up.circle.fill"
-        case "extension": return "arrow.uturn.down.circle.fill"
-        case "squat": return "arrow.down.circle.fill"
-        case "deadlift": return "arrow.up.arrow.down.circle.fill"
-        case "row": return "arrow.left.and.right.circle.fill"
-        default: return "circle.fill"
+            .navigationTitle("💪 부위별 운동")
         }
     }
 }
 
-struct PatternDetailView: View {
+// MARK: - 부위 상세 뷰
+struct MuscleDetailView: View {
     @EnvironmentObject var dataManager: DataManager
-    let pattern: MovementPatternInfo
+    let muscleGroup: MuscleGroup
+    @State private var selectedTab = 0
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            Picker("보기", selection: $selectedTab) {
+                Text("궤적별").tag(0)
+                Text("동작별").tag(1)
+                Text("자세별").tag(2)
+            }
+            .pickerStyle(.segmented)
+            .padding()
+            
+            switch selectedTab {
+            case 0:
+                TrajectoryListView(muscleGroup: muscleGroup)
+            case 1:
+                MovementListView(muscleGroup: muscleGroup)
+            default:
+                PositionFilteredListView(muscleGroup: muscleGroup)
+            }
+        }
+        .navigationTitle("\(muscleGroup.displayName) 운동")
+    }
+}
+
+// MARK: - 궤적별 리스트
+struct TrajectoryListView: View {
+    @EnvironmentObject var dataManager: DataManager
+    let muscleGroup: MuscleGroup
+    
+    var body: some View {
+        List {
+            ForEach(muscleGroup.trajectories) { trajectory in
+                let equipment = dataManager.getEquipment(byMuscleGroup: muscleGroup, trajectory: trajectory)
+                if !equipment.isEmpty {
+                    Section {
+                        ForEach(equipment) { item in
+                            NavigationLink {
+                                EquipmentDetailView(equipment: item)
+                            } label: {
+                                EquipmentRowView(equipment: item)
+                            }
+                        }
+                    } header: {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(trajectory.displayName)
+                                .font(.headline)
+                            Text(trajectory.description)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - 동작별 리스트
+struct MovementListView: View {
+    @EnvironmentObject var dataManager: DataManager
+    let muscleGroup: MuscleGroup
+    
+    var body: some View {
+        List {
+            ForEach(muscleGroup.movements) { movement in
+                let equipment = dataManager.getEquipment(byMuscleGroup: muscleGroup, movement: movement)
+                if !equipment.isEmpty {
+                    Section {
+                        ForEach(equipment) { item in
+                            NavigationLink {
+                                EquipmentDetailView(equipment: item)
+                            } label: {
+                                EquipmentRowView(equipment: item)
+                            }
+                        }
+                    } header: {
+                        Text(movement.displayName)
+                            .font(.headline)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - 자세별 필터 리스트
+struct PositionFilteredListView: View {
+    @EnvironmentObject var dataManager: DataManager
+    let muscleGroup: MuscleGroup
+    
+    var body: some View {
+        List {
+            ForEach(Position.allCases) { position in
+                let equipment = dataManager.getEquipment(byMuscleGroup: muscleGroup, position: position)
+                if !equipment.isEmpty {
+                    Section {
+                        ForEach(equipment) { item in
+                            NavigationLink {
+                                EquipmentDetailView(equipment: item)
+                            } label: {
+                                EquipmentRowView(equipment: item)
+                            }
+                        }
+                    } header: {
+                        Label(position.displayName, systemImage: position.icon)
+                            .font(.headline)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - 자세별 전체 뷰 (탭)
+struct PositionListView: View {
+    @EnvironmentObject var dataManager: DataManager
+    
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(Position.allCases) { position in
+                    NavigationLink {
+                        PositionDetailView(position: position)
+                    } label: {
+                        HStack(spacing: 16) {
+                            Image(systemName: position.icon)
+                                .font(.title)
+                                .foregroundStyle(.green)
+                                .frame(width: 50, height: 50)
+                                .background(Color.green.opacity(0.1))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(position.displayName)
+                                    .font(.headline)
+                                Text(position.description)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                    }
+                }
+            }
+            .navigationTitle("🧘 자세별 운동")
+        }
+    }
+}
+
+// MARK: - 자세 상세 뷰
+struct PositionDetailView: View {
+    @EnvironmentObject var dataManager: DataManager
+    let position: Position
     
     var filteredEquipment: [EquipmentViewModel] {
-        dataManager.getEquipment(byMovementPattern: pattern.id)
+        dataManager.getEquipment(byPosition: position)
+    }
+    
+    var equipmentByMuscleGroup: [(MuscleGroup, [EquipmentViewModel])] {
+        let grouped = Dictionary(grouping: filteredEquipment) { $0.muscleGroup }
+        return MuscleGroup.allCases.compactMap { muscleGroup in
+            guard let equipment = grouped[muscleGroup], !equipment.isEmpty else { return nil }
+            return (muscleGroup, equipment)
+        }
     }
     
     var body: some View {
-        List(filteredEquipment) { equipment in
-            NavigationLink {
-                EquipmentDetailView(equipment: equipment)
-            } label: {
-                EquipmentRowView(equipment: equipment)
+        List {
+            ForEach(equipmentByMuscleGroup, id: \.0) { muscleGroup, equipment in
+                Section {
+                    ForEach(equipment) { item in
+                        NavigationLink {
+                            EquipmentDetailView(equipment: item)
+                        } label: {
+                            EquipmentRowView(equipment: item)
+                        }
+                    }
+                } header: {
+                    Label(muscleGroup.displayName, systemImage: muscleGroup.icon)
+                }
             }
         }
-        .navigationTitle("\(pattern.name) 동작")
+        .navigationTitle("\(position.displayName) 운동")
     }
 }
 
 #Preview {
     ContentView()
 }
+
