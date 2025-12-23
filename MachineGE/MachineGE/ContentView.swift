@@ -289,16 +289,49 @@ struct EquipmentDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.blue.gradient)
-                        .frame(height: 200)
-                    
-                    Image(systemName: equipment.muscleGroup.icon)
-                        .font(.system(size: 80))
-                        .foregroundStyle(.white.opacity(0.8))
+                // 브랜드 이미지 우선 (brand.imageUrl)
+                if let imgUrlStr = equipment.brand.imageUrl, let imgUrl = URL(string: imgUrlStr) {
+                    RemoteImageView(pageURL: imgUrl, contentMode: .fill) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color.blue.gradient)
+                                .frame(height: 200)
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .scaleEffect(1.2)
+                        }
+                    }
+                    .frame(height: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .padding(.horizontal)
+                } else if let website = equipment.brand.website, let websiteUrl = URL(string: website) {
+                    // 브랜드 웹사이트에서 대표 이미지 추출
+                    RemoteImageView(pageURL: websiteUrl, contentMode: .fill) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color.blue.gradient)
+                                .frame(height: 200)
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .scaleEffect(1.2)
+                        }
+                    }
+                    .frame(height: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .padding(.horizontal)
+                } else {
+                    // 기존 기본 카드
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.blue.gradient)
+                            .frame(height: 200)
+                        
+                        Image(systemName: equipment.muscleGroup.icon)
+                            .font(.system(size: 80))
+                            .foregroundStyle(.white.opacity(0.8))
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
                 
                 VStack(alignment: .leading, spacing: 16) {
                     InfoRow(title: "브랜드", value: "\(equipment.brand.name) (\(equipment.brand.nameEn))")
@@ -306,7 +339,6 @@ struct EquipmentDetailView: View {
                     InfoRow(title: "자세", value: equipment.position.displayName)
                     InfoRow(title: "궤적", value: equipment.trajectory.displayName)
                     InfoRow(title: "동작", value: equipment.movement.displayName)
-                    InfoRow(title: "제조 국가", value: equipment.origin.rawValue)
                     
                     Divider()
                     
@@ -643,4 +675,3 @@ struct PositionDetailView: View {
 #Preview {
     ContentView()
 }
-

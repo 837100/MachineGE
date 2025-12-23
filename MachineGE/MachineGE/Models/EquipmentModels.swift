@@ -316,7 +316,8 @@ struct Brand: Codable, Identifiable, Hashable {
     let country: String
     let description: String
     let website: String?
-    
+    let imageUrl: String?
+
     var origin: EquipmentOrigin {
         country == "domestic" ? .domestic : .international
     }
@@ -337,6 +338,7 @@ struct EquipmentItem: Codable, Identifiable, Hashable {
     let description: String
     let targetMuscles: [String]
     let tips: String
+    let url: String?
 }
 
 // MARK: - 뷰 모델
@@ -352,6 +354,7 @@ struct EquipmentViewModel: Identifiable, Hashable {
     let description: String
     let targetMuscles: [String]
     let tips: String
+    let url: String?
     
     var origin: EquipmentOrigin { brand.origin }
 }
