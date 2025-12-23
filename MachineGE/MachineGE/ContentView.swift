@@ -237,16 +237,31 @@ struct BrandDetailView: View {
 // MARK: - 장비 행 뷰
 struct EquipmentRowView: View {
     let equipment: EquipmentViewModel
-    
+
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: equipment.muscleGroup.icon)
-                .font(.title2)
-                .foregroundStyle(.blue)
+            // 브랜드 로고가 있으면 로고를 원형으로 표시
+            if let logoUrlStr = equipment.brand.imageUrl, let logoUrl = URL(string: logoUrlStr) {
+                RemoteImageView(pageURL: logoUrl, contentMode: .fit) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.blue.opacity(0.1))
+                            .frame(width: 40, height: 40)
+                        ProgressView()
+                            .scaleEffect(0.8)
+                    }
+                }
                 .frame(width: 40, height: 40)
-                .background(Color.blue.opacity(0.1))
                 .clipShape(Circle())
-            
+            } else {
+                Image(systemName: equipment.muscleGroup.icon)
+                    .font(.title2)
+                    .foregroundStyle(.blue)
+                    .frame(width: 40, height: 40)
+                    .background(Color.blue.opacity(0.1))
+                    .clipShape(Circle())
+            }
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(equipment.name)
                     .font(.headline)
@@ -254,10 +269,10 @@ struct EquipmentRowView: View {
                     Text(equipment.brand.name)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    
+
                     Text("•")
                         .foregroundStyle(.secondary)
-                    
+
                     Text(equipment.position.displayName)
                         .font(.caption)
                         .padding(.horizontal, 6)
@@ -265,7 +280,7 @@ struct EquipmentRowView: View {
                         .background(Color.green.opacity(0.1))
                         .foregroundStyle(.green)
                         .clipShape(Capsule())
-                    
+
                     Text(equipment.trajectory.displayName)
                         .font(.caption)
                         .padding(.horizontal, 6)
@@ -275,7 +290,7 @@ struct EquipmentRowView: View {
                         .clipShape(Capsule())
                 }
             }
-            
+
             Spacer()
         }
         .padding(.vertical, 4)
@@ -285,12 +300,28 @@ struct EquipmentRowView: View {
 // MARK: - 장비 상세 뷰
 struct EquipmentDetailView: View {
     let equipment: EquipmentViewModel
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // 브랜드 이미지 우선 (brand.imageUrl)
-                if let imgUrlStr = equipment.brand.imageUrl, let imgUrl = URL(string: imgUrlStr) {
+                // 우선: equipment.url을 사용하여 해당 장비 페이지(또는 직접 이미지)를 기반으로 대표 이미지를 가져옴
+                if let equipmentUrlStr = equipment.url, let equipmentUrl = URL(string: equipmentUrlStr) {
+                    RemoteImageView(pageURL: equipmentUrl, contentMode: .fill) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color.blue.gradient)
+                                .frame(height: 200)
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .scaleEffect(1.2)
+                        }
+                    }
+                    .frame(height: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .padding(.horizontal)
+                }
+                // 그 다음으로 브랜드 로고(이미지)가 있으면 표시
+                else if let imgUrlStr = equipment.brand.imageUrl, let imgUrl = URL(string: imgUrlStr) {
                     RemoteImageView(pageURL: imgUrl, contentMode: .fill) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 16)
@@ -304,8 +335,9 @@ struct EquipmentDetailView: View {
                     .frame(height: 200)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .padding(.horizontal)
-                } else if let website = equipment.brand.website, let websiteUrl = URL(string: website) {
-                    // 브랜드 웹사이트에서 대표 이미지 추출
+                }
+                // 그 다음 브랜드 웹사이트에서 대표 이미지 추출
+                else if let website = equipment.brand.website, let websiteUrl = URL(string: website) {
                     RemoteImageView(pageURL: websiteUrl, contentMode: .fill) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 16)
@@ -325,7 +357,7 @@ struct EquipmentDetailView: View {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(Color.blue.gradient)
                             .frame(height: 200)
-                        
+
                         Image(systemName: equipment.muscleGroup.icon)
                             .font(.system(size: 80))
                             .foregroundStyle(.white.opacity(0.8))

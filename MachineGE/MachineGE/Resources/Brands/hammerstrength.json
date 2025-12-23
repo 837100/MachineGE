@@ -6,7 +6,7 @@
         "country": "international",
         "description": "프로 선수들이 선호하는 미국 프리미엄 웨이트 장비 브랜드. 플레이트 로디드 머신의 대명사.",
         "website": "https://www.lifefitness.com/en-us/brands/hammer-strength",
-        "imageUrl": "https://www.lifefitness.com/Kentico13CoreBase/media/LFMedia/Development-Images/header-white-hammer.svg"
+        "imageUrl": "https://www.valckegroup.com/src/Frontend/Files/Pages/UserTemplate/logo-hammer-strength.png"
     },
     "equipment": [
         {
@@ -20,30 +20,6 @@
             "targetMuscles": ["대흉근 상부", "전면삼각근", "삼두근"],
             "tips": "어깨가 과도하게 올라가지 않도록 견갑골을 고정하세요.",
             "url": "https://www.lifefitness.com/en-us/catalog/strength-training/plate-loaded/plate-loaded-iso-lateral-bench-press"
-        },
-        {
-            "id": "hs-flat-press",
-            "name": "아이소래터럴 벤치 프레스",
-            "muscleGroup": "chest",
-            "trajectory": "flat",
-            "movement": "press",
-            "position": "lying",
-            "description": "양팔 독립 움직임으로 가슴 중앙부를 균형있게 발달시키는 플랫 프레스 머신.",
-            "targetMuscles": ["대흉근 중부", "전면삼각근", "삼두근"],
-            "tips": "양팔의 힘을 균등하게 사용하여 균형 발달을 도모하세요.",
-            "url": "https://www.lifefitness.com/en-us/catalog/strength-training/selectorized/hammer-strength-select-flat-press"
-        },
-        {
-            "id": "hs-decline-press",
-            "name": "디클라인 프레스",
-            "muscleGroup": "chest",
-            "trajectory": "decline",
-            "movement": "press",
-            "position": "lying",
-            "description": "하부 가슴을 타겟으로 하는 디클라인 프레스 머신. 가슴 라인을 다듬는 데 효과적.",
-            "targetMuscles": ["대흉근 하부", "전면삼각근", "삼두근"],
-            "tips": "내리는 동작에서 가슴 하부의 수축을 느끼세요.",
-            "url": "https://www.lifefitness.com/en-us/catalog/strength-training/selectorized/hammer-strength-select-decline-press"
         }
     ]
 }
