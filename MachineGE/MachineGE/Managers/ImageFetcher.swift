@@ -34,19 +34,47 @@ final class ImageFetcher: ObservableObject {
         errorMessage = nil
         image = nil
 
+        #if DEBUG
+        print("DEBUG: start fetchImage fromPageURL=\(pageURL.absoluteString)")
+        #endif
+
         currentTask = Task { [weak self] in
             guard let self = self else { return }
             // 메모리 캐시 우선
             if let cached = Self.memoryCache.object(forKey: pageURL as NSURL) {
+                #if DEBUG
+                print("DEBUG: found memory cache for \(pageURL.absoluteString)")
+                #endif
                 self.image = cached
                 self.isLoading = false
                 return
             }
 
             do {
-                // 1) HTML 가져오기
-                let (data, _) = try await URLSession.shared.data(from: pageURL)
-                // try different encodings
+                // 1) HTML 또는 리소스 가져오기
+                let (data, response) = try await URLSession.shared.data(from: pageURL)
+
+                // 1a) 응답의 MIME 타입을 검사해 image/*이면 바로 처리
+                #if DEBUG
+                print("DEBUG: response mimeType=\(response.mimeType ?? "nil")")
+                #endif
+                if let mime = response.mimeType, mime.lowercased().hasPrefix("image") {
+                    #if DEBUG
+                    print("DEBUG: response is image, size=\(data.count)")
+                    #endif
+                    if let platformImage = PlatformImage(data: data) {
+                        // 저장: 디스크와 메모리
+                        self.diskCache.save(data: data, for: pageURL)
+                        Self.memoryCache.setObject(platformImage, forKey: pageURL as NSURL)
+                        self.image = platformImage
+                    } else {
+                        self.errorMessage = "이미지 디코딩 실패"
+                    }
+                    self.isLoading = false
+                    return
+                }
+
+                // try different encodings (for HTML)
                 let html = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .isoLatin1) ?? ""
 
                 // 2) 이미지 URL 추출 (SwiftSoup 사용 가능하면 사용)
@@ -55,6 +83,9 @@ final class ImageFetcher: ObservableObject {
                 #if canImport(SwiftSoup)
                 do {
                     foundImageURLString = try Self.extractUsingSwiftSoup(html: html)
+                    #if DEBUG
+                    print("DEBUG: swiftSoup foundImageURLString=\(foundImageURLString ?? "nil")")
+                    #endif
                 } catch {
                     foundImageURLString = nil
                 }
@@ -63,17 +94,30 @@ final class ImageFetcher: ObservableObject {
                 // fallback: 기존 정규식 기반 추출
                 if foundImageURLString == nil {
                     foundImageURLString = Self.extractRepresentativeImageURL(fromHTML: html) ?? Self.extractFirstImageSrc(fromHTML: html)
+                    #if DEBUG
+                    print("DEBUG: regex fallback foundImageURLString=\(foundImageURLString ?? "nil")")
+                    #endif
                 }
 
                 guard let imgStr = foundImageURLString, let resolved = Self.resolve(urlString: imgStr, base: pageURL) else {
+                    #if DEBUG
+                    print("DEBUG: no representative image found for page \(pageURL.absoluteString)")
+                    #endif
                     self.errorMessage = "대표 이미지 찾지 못함"
                     self.isLoading = false
                     return
                 }
 
+                #if DEBUG
+                print("DEBUG: resolved image URL=\(resolved.absoluteString)")
+                #endif
+
                 // 3) 디스크 캐시 확인 (image URL을 키로 사용)
                 if let diskData = self.diskCache.loadData(for: resolved),
                    let platformImage = PlatformImage(data: diskData) {
+                    #if DEBUG
+                    print("DEBUG: loaded image from disk cache for \(resolved.absoluteString)")
+                    #endif
                     Self.memoryCache.setObject(platformImage, forKey: pageURL as NSURL)
                     self.image = platformImage
                     self.isLoading = false
@@ -81,7 +125,10 @@ final class ImageFetcher: ObservableObject {
                 }
 
                 // 4) 이미지 다운로드
-                let (imgData, _) = try await URLSession.shared.data(from: resolved)
+                let (imgData, imgResp) = try await URLSession.shared.data(from: resolved)
+                #if DEBUG
+                print("DEBUG: downloaded image bytes=\(imgData.count), resp mime=\(imgResp.mimeType ?? "nil")")
+                #endif
 
                 if let platformImage = PlatformImage(data: imgData) {
                     // 저장: 디스크와 메모리
@@ -93,6 +140,9 @@ final class ImageFetcher: ObservableObject {
                 }
             } catch {
                 if Task.isCancelled { return }
+                #if DEBUG
+                print("DEBUG: fetchImage error=\(error)")
+                #endif
                 self.errorMessage = "이미지 로드 실패: \(error.localizedDescription)"
             }
 

@@ -55,7 +55,17 @@ class DataManager: ObservableObject {
             let decoder = JSONDecoder()
             let root = try decoder.decode(BrandDataRoot.self, from: data)
 
+            #if DEBUG
+            print("DEBUG: Loaded brand '\(root.brand.id)' imageUrl: \(root.brand.imageUrl ?? "nil"), website: \(root.brand.website ?? "nil")")
+            for it in root.equipment {
+                print("DEBUG: equipment id='\(it.id)' url='\(it.url ?? "nil")'")
+            }
+            #endif
+
             let equipment = root.equipment.compactMap { item -> EquipmentViewModel? in
+                #if DEBUG
+                print("DEBUG: Mapping item id=\(item.id) url=\(item.url ?? "nil")")
+                #endif
                 guard let muscleGroup = MuscleGroup(rawValue: item.muscleGroup) else {
                     print("⚠️ 알 수 없는 근육 그룹: \(item.muscleGroup)")
                     return nil
