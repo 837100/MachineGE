@@ -1,0 +1,72 @@
+//
+//  EquipmentRowView.swift
+//  MachineGE
+//
+//  Created by sg on 12/29/25.
+//
+
+import SwiftUI
+
+
+// MARK: - 장비 행 뷰
+struct EquipmentRowView: View {
+    let equipment: EquipmentViewModel
+
+    var body: some View {
+        HStack(spacing: 12) {
+            // 브랜드 로고가 있으면 로고를 원형으로 표시
+            if let logoUrlStr = equipment.brand.imageUrl, let logoUrl = URL(string: logoUrlStr) {
+                RemoteImageView(pageURL: logoUrl, contentMode: .fit) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.blue.opacity(0.1))
+                            .frame(width: 40, height: 40)
+                        ProgressView()
+                            .scaleEffect(0.8)
+                    }
+                }
+                .frame(width: 40, height: 40)
+                .clipShape(Circle())
+            } else {
+                Image(systemName: equipment.muscleGroup.icon)
+                    .font(.title2)
+                    .foregroundStyle(.blue)
+                    .frame(width: 40, height: 40)
+                    .background(Color.blue.opacity(0.1))
+                    .clipShape(Circle())
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(equipment.name)
+                    .font(.headline)
+                HStack(spacing: 4) {
+                    Text(equipment.brand.name)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    Text("•")
+                        .foregroundStyle(.secondary)
+
+                    Text(equipment.position.displayName)
+                        .font(.caption)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.green.opacity(0.1))
+                        .foregroundStyle(.green)
+                        .clipShape(Capsule())
+
+                    Text(equipment.trajectory.displayName)
+                        .font(.caption)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.purple.opacity(0.1))
+                        .foregroundStyle(.purple)
+                        .clipShape(Capsule())
+                }
+            }
+
+            Spacer()
+        }
+        .padding(.vertical, 4)
+    }
+}
