@@ -14,20 +14,8 @@ struct EquipmentRowView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            // 브랜드 로고가 있으면 로고를 원형으로 표시
-            if let logoUrlStr = equipment.brand.imageUrl, let logoUrl = URL(string: logoUrlStr) {
-                RemoteImageView(pageURL: logoUrl, contentMode: .fit) {
-                    ZStack {
-                        Circle()
-                            .fill(Color.blue.opacity(0.1))
-                            .frame(width: 40, height: 40)
-                        ProgressView()
-                            .scaleEffect(0.8)
-                    }
-                }
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
-            } else {
+            // EquipmentImageView: 로컬 이미지면 Assets에서, http로 시작하면 외부에서 로드
+            EquipmentImageView(imageSource: equipment.brand.imageUrl, contentMode: .fit) {
                 Image(systemName: equipment.muscleGroup.icon)
                     .font(.title2)
                     .foregroundStyle(.blue)
@@ -35,6 +23,8 @@ struct EquipmentRowView: View {
                     .background(Color.blue.opacity(0.1))
                     .clipShape(Circle())
             }
+            .frame(width: 40, height: 40)
+            .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(equipment.name)

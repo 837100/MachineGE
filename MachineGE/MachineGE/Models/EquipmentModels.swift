@@ -357,4 +357,27 @@ struct EquipmentViewModel: Identifiable, Hashable {
     let url: String?
     
     var origin: EquipmentOrigin { brand.origin }
+    
+    // MARK: - Preview/Dummy 데이터
+    static let dummy = EquipmentViewModel(
+        id: "sample",
+        name: "샘플 머신",
+        brand: Brand(
+            id: "sample-brand",
+            name: "샘플 브랜드",
+            nameEn: "Sample Brand",
+            country: "domestic",
+            description: "샘플 브랜드 설명",
+            website: nil,
+            imageUrl: nil
+        ),
+        muscleGroup: .chest,
+        trajectory: .chest(.flat),
+        movement: .chest(.press),
+        position: .seated,
+        description: "샘플 머신 설명입니다.",
+        targetMuscles: ["대흉근", "삼두근"],
+        tips: "올바른 자세로 운동하세요.",
+        url: nil
+    )
 }

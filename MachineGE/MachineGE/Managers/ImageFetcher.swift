@@ -275,7 +275,7 @@ final class DiskImageCache {
     }
 }
 
-// MARK: - RemoteImageView
+// MARK: - RemoteImageView (외부 URL 전용)
 struct RemoteImageView<Placeholder: View>: View {
     @StateObject private var fetcher = ImageFetcher()
     let pageURL: URL
@@ -323,5 +323,71 @@ struct RemoteImageView<Placeholder: View>: View {
         .onDisappear {
             fetcher.cancel()
         }
+    }
+}
+
+// MARK: - EquipmentImageView (로컬/외부 이미지 통합)
+/// imageSource가 http로 시작하면 외부 URL, 아니면 Assets의 로컬 이미지로 처리
+struct EquipmentImageView<Placeholder: View>: View {
+    let imageSource: String?
+    var contentMode: ContentMode = .fill
+    var placeholder: Placeholder
+    
+    init(imageSource: String?,
+         contentMode: ContentMode = .fill,
+         @ViewBuilder placeholder: () -> Placeholder) {
+        self.imageSource = imageSource
+        self.contentMode = contentMode
+        self.placeholder = placeholder()
+    }
+    
+    var body: some View {
+        Group {
+            if let source = imageSource, !source.isEmpty {
+                if source.lowercased().hasPrefix("http") {
+                    // 외부 URL인 경우
+                    if let url = URL(string: source) {
+                        RemoteImageView(pageURL: url, contentMode: contentMode) {
+                            placeholder
+                        }
+                    } else {
+                        placeholder
+                    }
+                } else {
+                    // 로컬 Assets 이미지인 경우
+                    localImageView(imageName: source)
+                }
+            } else {
+                placeholder
+            }
+        }
+    }
+    
+    // MARK: - 로컬 이미지 뷰
+    @ViewBuilder
+    private func localImageView(imageName: String) -> some View {
+        #if canImport(UIKit)
+        // 확장자 제거하여 Assets에서 검색
+        let nameWithoutExtension = imageName.replacingOccurrences(of: ".webp", with: "")
+            .replacingOccurrences(of: ".png", with: "")
+            .replacingOccurrences(of: ".jpg", with: "")
+            .replacingOccurrences(of: ".jpeg", with: "")
+        
+        if let uiImage = UIImage(named: nameWithoutExtension) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .aspectRatio(contentMode: contentMode)
+        } else if let uiImage = UIImage(named: imageName) {
+            // 확장자 포함된 이름으로도 시도
+            Image(uiImage: uiImage)
+                .resizable()
+                .aspectRatio(contentMode: contentMode)
+        } else {
+            // Assets에 이미지가 없으면 플레이스홀더
+            placeholder
+        }
+        #else
+        placeholder
+        #endif
     }
 }
