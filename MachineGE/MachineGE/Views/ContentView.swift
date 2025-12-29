@@ -32,6 +32,11 @@ struct ContentView: View {
                 .tabItem {
                     Label("자세별", systemImage: "figure.stand")
                 }
+            
+            SettingsView()
+                .tabItem {
+                    Label("설정", systemImage: "gearshape.fill")
+                }
         }
         .environmentObject(dataManager)
     }
@@ -128,6 +133,7 @@ struct MuscleGroupView: View {
                 }
             }
             .navigationTitle("💪 부위별 운동")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
@@ -282,6 +288,7 @@ struct PositionListView: View {
                 }
             }
             .navigationTitle("🧘 자세별 운동")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

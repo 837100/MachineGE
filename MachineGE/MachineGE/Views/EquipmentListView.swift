@@ -46,6 +46,7 @@ struct EquipmentListView: View {
                 }
             }
             .navigationTitle("🏋️ 장비 목록")
+            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText, prompt: "장비 또는 브랜드 검색")
         }
     }

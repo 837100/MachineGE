@@ -38,6 +38,7 @@ struct BrandListView: View {
                 }
             }
             .navigationTitle("🏭 브랜드별")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
